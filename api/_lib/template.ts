@@ -98,18 +98,29 @@ function getCss(theme: string, fontSize: string) {
         vertical-align: -0.1em;
     }
     
-    .heading {
+    .default-text {
         font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
-        font-weight: bold;
         color: ${foreground};
         line-height: 1.8;
+    }
+
+    .post-title {
+        font-size: ${sanitizeHtml(fontSize)};
+        font-weight: bold;
+    }
+    
+    .author-and-blog-title {
+        font-size: 60px;
+        font-weight: normal;
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
     }`;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize } = parsedReq;
+    const { postTitle, theme, md, fontSize, author, blogTitle } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -121,9 +132,12 @@ export function getHtml(parsedReq: ParsedRequest) {
     <body>
         <div>
             <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
+            <div class="post-title default-text">${emojify(
+                md ? marked(postTitle) : sanitizeHtml(postTitle)
             )}
+            </div>
+            <div class="author-and-blog-title default-text">
+                ${author} / ${blogTitle}
             </div>
         </div>
     </body>

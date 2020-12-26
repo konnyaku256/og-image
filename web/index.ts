@@ -161,9 +161,11 @@ const App = (_: any, state: AppState, setState: SetState) => {
     const {
         fileType = 'png',
         fontSize = '100px',
-        theme = 'light',
+        theme = 'konnyaku256',
         md = true,
-        text = '**Hello** World',
+        postTitle = '',
+        author = '@konnyaku256',
+        blogTitle = 'こんにゃくの日記',
         showToast = false,
         messageToast = '',
         loading = true,
@@ -171,10 +173,12 @@ const App = (_: any, state: AppState, setState: SetState) => {
     } = state;
     const mdValue = md ? '1' : '0';
     const url = new URL(window.location.origin);
-    url.pathname = `${encodeURIComponent(text)}.${fileType}`;
+    url.pathname = `${encodeURIComponent(postTitle)}.${fileType}`;
     url.searchParams.append('theme', theme);
     url.searchParams.append('md', mdValue);
     url.searchParams.append('fontSize', fontSize);
+    url.searchParams.append('author', author);
+    url.searchParams.append('blogTitle', blogTitle);
 
     return H('div',
         { className: 'split' },
@@ -216,12 +220,32 @@ const App = (_: any, state: AppState, setState: SetState) => {
                     })
                 }),
                 H(Field, {
-                    label: 'Text Input',
+                    label: 'Post Title',
                     input: H(TextInput, {
-                        value: text,
+                        value: postTitle,
                         oninput: (val: string) => {
                             console.log('oninput ' + val);
-                            setLoadingState({ text: val, overrideUrl: url });
+                            setLoadingState({ postTitle: val, overrideUrl: url });
+                        }
+                    })
+                }),
+                H(Field, {
+                    label: 'Author',
+                    input: H(TextInput, {
+                        value: author,
+                        oninput: (val: string) => {
+                            console.log('oninput ' + val);
+                            setLoadingState({ author: val });
+                        }
+                    })
+                }),
+                H(Field, {
+                    label: 'Blog Title',
+                    input: H(TextInput, {
+                        value: blogTitle,
+                        oninput: (val: string) => {
+                            console.log('oninput ' + val);
+                            setLoadingState({ blogTitle: val });
                         }
                     })
                 }),

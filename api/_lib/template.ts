@@ -120,7 +120,7 @@ function getCss(theme: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { postTitle, theme, md, fontSize, author, blogTitle } = parsedReq;
+    const { theme, fontSize, postTitle, author, blogTitle } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -132,9 +132,8 @@ export function getHtml(parsedReq: ParsedRequest) {
     <body>
         <div>
             <div class="spacer">
-            <div class="post-title default-text">${emojify(
-                md ? marked(postTitle) : sanitizeHtml(postTitle)
-            )}
+            <div class="post-title default-text">
+                ${emojify(marked(postTitle))}
             </div>
             <div class="author-and-blog-title default-text">
                 ${author} / ${blogTitle}

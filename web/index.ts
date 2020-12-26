@@ -122,18 +122,11 @@ const fileTypeOptions: DropdownOption[] = [
     { text: 'PNG', value: 'png' },
     { text: 'JPEG', value: 'jpeg' },
 ];
-
 const fontSizeOptions: DropdownOption[] = Array
     .from({ length: 10 })
     .map((_, i) => i * 25)
     .filter(n => n > 0)
     .map(n => ({ text: n + 'px', value: n + 'px' }));
-
-const markdownOptions: DropdownOption[] = [
-    { text: 'Plain Text', value: '0' },
-    { text: 'Markdown', value: '1' },
-];
-
 interface AppState extends ParsedRequest {
     loading: boolean;
     showToast: boolean;
@@ -159,10 +152,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
         setState({ ...newState, loading: true });
     };
     const {
+        theme = 'konnyaku256',
         fileType = 'png',
         fontSize = '100px',
-        theme = 'konnyaku256',
-        md = true,
         postTitle = '',
         author = '@konnyaku256',
         blogTitle = 'こんにゃくの日記',
@@ -171,11 +163,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
         loading = true,
         overrideUrl = null,
     } = state;
-    const mdValue = md ? '1' : '0';
     const url = new URL(window.location.origin);
     url.pathname = `${encodeURIComponent(postTitle)}.${fileType}`;
     url.searchParams.append('theme', theme);
-    url.searchParams.append('md', mdValue);
     url.searchParams.append('fontSize', fontSize);
     url.searchParams.append('author', author);
     url.searchParams.append('blogTitle', blogTitle);
@@ -209,14 +199,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         options: fontSizeOptions,
                         value: fontSize,
                         onchange: (val: string) => setLoadingState({ fontSize: val })
-                    })
-                }),
-                H(Field, {
-                    label: 'Text Type',
-                    input: H(Dropdown, {
-                        options: markdownOptions,
-                        value: mdValue,
-                        onchange: (val: string) => setLoadingState({ md: val === '1' })
                     })
                 }),
                 H(Field, {

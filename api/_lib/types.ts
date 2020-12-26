@@ -2,11 +2,10 @@ export type FileType = 'png' | 'jpeg';
 export type Theme = 'light' | 'dark' | 'konnyaku256';
 
 export interface ParsedRequest {
-    fileType: FileType;
-    postTitle: string;
     theme: Theme;
-    md: boolean;
+    fileType: FileType;
     fontSize: string;
+    postTitle: string;    
     author: string;
     blogTitle: string;
 }

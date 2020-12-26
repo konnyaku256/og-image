@@ -20,6 +20,10 @@ function getCss(theme: string, fontSize: string) {
         background = 'black';
         foreground = 'white';
         radial = 'dimgray';
+    } else if (theme === 'konnyaku256') {
+        background = '#34495e';
+        foreground = 'white';
+        radial = 'dimgray';
     }
     return `
     @font-face {
@@ -94,17 +98,29 @@ function getCss(theme: string, fontSize: string) {
         vertical-align: -0.1em;
     }
     
-    .heading {
+    .default-text {
         font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
         line-height: 1.8;
+    }
+
+    .post-title {
+        font-size: ${sanitizeHtml(fontSize)};
+        font-weight: bold;
+    }
+    
+    .author-and-blog-title {
+        font-size: 60px;
+        font-weight: normal;
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
     }`;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { theme, fontSize, postTitle, author, blogTitle } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -116,31 +132,13 @@ export function getHtml(parsedReq: ParsedRequest) {
     <body>
         <div>
             <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
+            <div class="post-title default-text">
+                ${emojify(marked(postTitle))}
             </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
+            <div class="author-and-blog-title default-text">
+                ${author} / ${blogTitle}
             </div>
         </div>
     </body>
 </html>`;
-}
-
-function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
-}
-
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
 }

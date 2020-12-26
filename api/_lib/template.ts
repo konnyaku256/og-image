@@ -20,6 +20,10 @@ function getCss(theme: string, fontSize: string) {
         background = 'black';
         foreground = 'white';
         radial = 'dimgray';
+    } else if (theme === 'konnyaku256') {
+        background = '#34495e';
+        foreground = 'white';
+        radial = 'dimgray';
     }
     return `
     @font-face {
@@ -98,6 +102,7 @@ function getCss(theme: string, fontSize: string) {
         font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
+        font-weight: bold;
         color: ${foreground};
         line-height: 1.8;
     }`;
